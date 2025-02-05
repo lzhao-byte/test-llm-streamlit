@@ -1,11 +1,11 @@
 from utils import *
 from streaming import *
-from graph import *
 
 
 def main():
-    setup_llm()
+    setup_graph(with_tools=False)
     current_llm = f"Currently using {st.session_state['llm']}"
+    graph = st.session_state['graph']
 
     ## clear chat history
     if st.sidebar.button("Clear Chat History"):
@@ -28,7 +28,7 @@ def main():
             # create a new container for streaming messages only, and give it context
             container = st.empty()
             st_callback = StreamHandler(container)
-            response = invoke_graph(st.session_state.chat_history, [st_callback])
+            response = invoke_graph(graph, st.session_state.chat_history, [st_callback])
             st.caption(current_llm)
 
             # Add that last message to the st_message_state
